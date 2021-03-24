@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# fuzzy search for any file and open it in vim
+
+FILE="$(fzf)"
+if [ -n "$FILE" ]
+then
+    nvim $FILE
+fi

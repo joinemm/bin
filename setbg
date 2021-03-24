@@ -1,0 +1,5 @@
+#!/bin/sh
+
+fileext="${1##*.}"
+cp "$1" "$HOME/wallpaper.$fileext"
+feh --bg-fill "$HOME/wallpaper.$fileext"

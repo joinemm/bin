@@ -1,0 +1,21 @@
+#!/bin/sh
+# recursively renames images saved from twitter with the .orig and .large garbage
+# run this script from the root of your picture storage
+# give any arguments and they will be forwarded to rename
+
+CDIR=$(pwd)
+for i in $(ls -R | grep :); do
+    DIR=${i%:}
+    cd $DIR
+
+    rename $1 '.jfif' '.jpeg' *.jfif 2> /dev/null
+
+    rename $1 ' orig.jpg' '' *\ orig.jpg 2> /dev/null
+    rename $1 ' orig.jpeg' '' *\ orig.jpeg 2> /dev/null
+    rename $1 ' large.jpg' '' *\ large.jpg 2> /dev/null
+    rename $1 ' large.jpeg' '' *\ large.jpeg 2> /dev/null
+    rename $1 -- '-orig' '' *-orig* 2> /dev/null
+    rename $1 '.jpg_orig' '' *_orig* 2> /dev/null
+
+    cd $CDIR
+done
