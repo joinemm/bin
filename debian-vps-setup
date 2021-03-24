@@ -1,0 +1,12 @@
+#!/bin/sh
+
+apt -y update
+apt -y full-upgrade
+apt -y install zsh neovim neofetch git clang build-essential
+wget -O .zshrc https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
+chsh -s /bin/zsh
+
+wget https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info
+tic -xe alacritty,alacritty-direct alacritty.info
+rm alacritty.info
+echo "Initial setup done!"

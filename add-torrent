@@ -1,0 +1,4 @@
+#!/bin/sh
+
+transmission-remote -a "$1"
+notify-send "New torrent added" " starting download"
