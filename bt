@@ -7,3 +7,4 @@ else
   bluetoothctl -- power on
   notify-send "Bluetooth" "Powered on"
 fi
+pkill -RTMIN+12 dwmblocks

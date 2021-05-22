@@ -1,7 +1,7 @@
 #!/bin/sh
 STATE="$(bluetoothctl -- show | grep Powered | awk '{ print $2 }')"
 if [ $STATE == "yes" ]; then
-  echo "B*"
+  echo ""
 else
-  echo "Bx"
+  echo ""
 fi
