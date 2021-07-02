@@ -1,0 +1,13 @@
+#!/bin/sh
+CURRENT=$(audio-control current)
+
+if [ $CURRENT == "muted" ]; then
+	echo ""
+else
+	VOLUME=${CURRENT%"%"}
+	case 1 in
+		$(($VOLUME < 50))) ICON="";;
+		$(($VOLUME >= 50))) ICON="";;
+	esac
+	echo "$ICON $CURRENT"
+fi

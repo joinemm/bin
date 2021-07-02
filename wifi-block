@@ -1,6 +1,0 @@
-#!/bin/sh
-if iw dev | grep -q ssid; then
-  echo ""
-else
-  echo ""
-fi
