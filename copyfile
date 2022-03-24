@@ -1,0 +1,4 @@
+#!/bin/sh
+set -x
+MIME=$(file --brief --mime-type "$1")
+xclip -selection clipboard -t $MIME "$1"

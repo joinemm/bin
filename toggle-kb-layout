@@ -7,6 +7,8 @@ current_layout=$(setxkbmap -print | egrep -o '\+(.{2})\+' | sed s/+//g1)
 
 if [ "$current_layout" == "$1" ]; then
     setxkbmap "$2" && notify-send "Layout" "$2"
+	setxkbmap -option caps:super
 else
     setxkbmap "$1" && notify-send "Layout" "$1"
+	setxkbmap -option caps:super
 fi

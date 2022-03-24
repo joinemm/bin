@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Use to drag and drop files anywhere by simply clicking
+
+files=$@
+eval "$(xdotool getmouselocation --shell)" # into $X and $Y
+killall dragon 2>/dev/null # No accidential drops of wrong items ...
+dragon-drop --and-exit --all $files &
+while true; do
+	xid="$(xdotool search --onlyvisible --class  dragon | head -n 2)"
+	test -z "$xid" || break
+	sleep 0.05
+done
+xdotool mousemove --sync -w "$xid" 1 1 mousedown 1 mousemove $X $Y
+if [ $# -lt 2 ]; then
+	notify-send "Click to drop" "$files"
+else
+	notify-send "Click to drop" "$# files"
+fi
