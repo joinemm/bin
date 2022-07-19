@@ -1,6 +1,7 @@
 #!/bin/sh
 if iw dev | grep -q ssid; then
-	SSID="$(iw dev wlan0 info | grep ssid | cut -d ' ' -f2-)"
+	DEVICE=$(iw dev | grep Interface | cut -d ' ' -f 2)
+	SSID="$(iw dev $DEVICE info | grep ssid | cut -d ' ' -f 2)"
 	echo " $SSID"
 else
 	echo ""
