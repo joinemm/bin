@@ -11,10 +11,10 @@ elif [ $1 == "down" ]; then
 elif [ $1 == "mute" ]; then
     pactl set-sink-mute $SINK toggle; pkill -RTMIN+10 dwmblocks
 elif [ $1 == "current" ]; then
-    if pactl list sinks | grep -A 10 $SINK | grep -q "Mute: yes"; then
+    if pactl get-sink-mute $SINK | grep -q "Mute: yes"; then
         echo "muted"
     else
-        pacmd list-sinks | awk '/^\s+name: /{indefault = $2 == "<'$SINK'>"} /^\s+volume: / && indefault {print $5; exit}'
+        pactl get-sink-volume $SINK | grep Volume | cut -d ' ' -f 6
     fi
 else
     echo "error: unknown operation $1"
