@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pactl get-source-volume alsa_input.usb-R__DE_Microphones_R__DE_NT-USB_Mini_392CE44C-00.mono-fallback | grep Volume | cut -d ' ' -f 6
