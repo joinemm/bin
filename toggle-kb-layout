@@ -3,9 +3,9 @@
 # Give this script two keyboard layouts as arguments and it will toggle between them
 # eg. toggle-kb-layout us fi
 
-current_layout=$(setxkbmap -print | egrep -o '\+(.{2})\+' | sed s/+//g1)
+CURRENT=$(setxkbmap -query | grep layout | cut -d ' ' -f6-)
 
-if [ "$current_layout" == "$1" ]; then
+if [ "$CURRENT" == "$1" ]; then
     setxkbmap "$2" && notify-send "Layout" "$2"
 	setxkbmap -option caps:super
 else
