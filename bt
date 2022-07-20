@@ -2,10 +2,10 @@
 STATE="$(bluetoothctl -- show | grep Powered | awk '{ print $2 }')"
 if [ $STATE == "yes" ]; then
 	bluetoothctl -- power off
-	sudo rfkill block bluetooth
+	#sudo rfkill block bluetooth
 	notify-send "Bluetooth" "Powered off"
 else
-	sudo rfkill unblock bluetooth
+	#sudo rfkill unblock bluetooth
 	sleep 1
 	bluetoothctl -- power on
 	notify-send "Bluetooth" "Powered on"

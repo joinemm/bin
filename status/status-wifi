@@ -4,5 +4,5 @@ if iw dev | grep -q ssid; then
 	SSID="$(iw dev $DEVICE info | grep ssid | cut -d ' ' -f 2)"
 	echo " $SSID"
 else
-	echo ""
+    echo "$(status-airplane-mode)"
 fi

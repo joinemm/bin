@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if rfkill -o TYPE,SOFT -nr | grep -q "wlan blocked"; then
+    echo " Airplane Mode"
+else
+    echo ""
+fi
