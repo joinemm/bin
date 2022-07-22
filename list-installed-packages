@@ -1,0 +1,7 @@
+#!/bin/sh
+AUR="$(pacman -Qemq)"
+echo "# Packages from official repositories"
+pacman -Qeq | grep -vx "$AUR"
+echo
+echo "# AUR packages"
+echo $AUR | tr ' ' '\n'
