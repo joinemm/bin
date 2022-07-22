@@ -1,6 +1,5 @@
 #!/bin/sh
-STATE="$(bluetoothctl -- show | grep Powered | awk '{ print $2 }')"
-if [ $STATE == "yes" ]; then
+if [ "$(bluetooth | cut -d ' ' -f 3)" == "on" ]; then
   echo ""
 else
   echo ""
