@@ -14,7 +14,7 @@ elif [ $1 == "current" ]; then
     if pactl get-sink-mute "$SINK" | grep -q "Mute: yes"; then
         echo "muted"
     else
-        pactl get-sink-volume "$SINK" | grep Volume | cut -d ' ' -f 6
+        pactl get-sink-volume "$SINK" | awk '/Volume/ {print $5}'
     fi
 else
     echo "error: unknown operation $1"
