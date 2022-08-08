@@ -3,7 +3,7 @@
 ICON_CHARGING=
 ICON=
 
-STATUS="$(acpi -b)"
+STATUS="$(acpi -b | head -n 1)"
 PERCENTAGE="$(echo $STATUS | cut -d ',' -f 2)"
 if [ "$(echo $STATUS | cut -d ' ' -f 3)" == "Charging," ]; then
     echo $ICON_CHARGING$PERCENTAGE
