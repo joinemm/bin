@@ -1,7 +1,14 @@
 #!/bin/sh
 AUR="$(pacman -Qemq)"
+AURINFO="$(pacman -Qemqi | grep -Po '^Description\s*: \K.+')"
+
+PAC="$(pacman -Qeq | grep -vx "$AUR")"
+PACINFO="$(pacman -Qeqi | grep -Po '^Description\s*: \K.+' | grep -vx "$AURINFO")"
+
 echo "# Packages from official repositories"
-pacman -Qeq | grep -vx "$AUR"
+paste <(echo "$PAC") - - <(echo "$PACINFO") < /dev/null \
+    | column -s $'\t' -t -o'#' | sed -e 's/###/ # /'
 echo
 echo "# AUR packages"
-echo $AUR | tr ' ' '\n'
+paste <(echo "$AUR") - - <(echo "$AURINFO") < /dev/null \
+    | column -s $'\t' -t -o'#' | sed -e 's/###/ # /'
