@@ -1,4 +1,8 @@
 #!/bin/sh
 
+case $BLOCK_BUTTON in
+    1) toggle-kb-layout fi us
+esac
+
 LAYOUT=$(setxkbmap -query | grep layout | cut -d ' ' -f6-)
 echo $LAYOUT | tr a-z A-Z
