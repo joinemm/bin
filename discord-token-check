@@ -1,0 +1,21 @@
+#!/usr/bin/python
+
+import discord
+import sys
+
+class MyClient(discord.Client):
+    async def on_ready(self):
+        print(f"Logged in as {self.user} (ID: {self.user.id})")
+        await self.close()
+
+if len(sys.argv) > 1:
+    token = sys.argv[1]
+else:
+    token = input("Token to check: ").strip()
+
+client = MyClient(intents=discord.Intents.default())
+try:
+    client.run(token, log_handler=None)
+except discord.errors.LoginFailure as e:
+    print(e)
+
