@@ -1,7 +1,6 @@
 #!/bin/sh
-if iw dev | grep -q ssid; then
-	DEVICE=$(iw dev | grep Interface | cut -d ' ' -f 2)
-	SSID="$(iw dev $DEVICE info | grep ssid | cut -d ' ' -f 2)"
+SSID="$(iwgetid -r)"
+if [ "$SSID" != "" ]; then
 	echo " $SSID"
 else
     echo "$(status-airplane-mode)"
