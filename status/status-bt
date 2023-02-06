@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ "$(bluetooth | cut -d ' ' -f 3)" == "on" ]; then
-  echo ""
+  echo ""
 else
   echo ""
 fi

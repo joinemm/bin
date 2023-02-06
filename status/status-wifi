@@ -1,7 +1,11 @@
 #!/bin/sh
 SSID="$(iwgetid -r)"
 if [ "$SSID" != "" ]; then
-	echo " $SSID"
+	echo " $SSID"
 else
-    echo "$(status-airplane-mode)"
+    if rfkill -o TYPE,SOFT -nr | grep -q "wlan blocked"; then
+        echo ""
+    else
+        echo ""
+    fi
 fi

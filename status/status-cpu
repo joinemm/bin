@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 CPU_IDLE=$(top -b -n 1 | grep Cpu | cut -d ',' -f 4 | awk '{print $1}' | cut -d '.' -f 1)
 CPU_USE=$(expr 100 - $CPU_IDLE)
 echo "$CPU_USE%"
