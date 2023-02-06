@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# credits: David Baynard, https://unix.stackexchange.com/a/393740/14907
+
+param="$1"
+char=${param:0:1}
+printf '%x' \'"$char" | xargs -I{} fc-list ":charset={}"
