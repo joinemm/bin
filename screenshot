@@ -1,3 +1,3 @@
 #!/bin/sh
 
-flameshot gui -p ~/screenshots
+flameshot gui -p ~/pictures/screenshots
