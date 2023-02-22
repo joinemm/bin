@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo mkdir /mnt
+sudo mount -o subvol=/ /dev/mapper/enc /mnt
