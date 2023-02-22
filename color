@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # uses xcolor to pick any color from the screen 
 # and copies the hex code to the clipboard

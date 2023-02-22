@@ -5,8 +5,7 @@
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 
-BATTINFO=`acpi -b`
+BATTINFO=`acpi -b | grep -v " 0%," | head -n 1`
 if [[ `echo $BATTINFO | grep Discharging` && `echo $BATTINFO | cut -f 5 -d " "` < 00:15:00 ]] ; then
-    echo "should notify"
-    /usr/bin/notify-send -u critical " Low battery" "$(echo $BATTINFO | cut -f 5,4 -d " ")"
+    notify-send -u critical " Low battery" "$(echo $BATTINFO | cut -f 5,4 -d " ")"
 fi
