@@ -1,33 +1,49 @@
 #!/usr/bin/env python
 
-# gets a random ultrawide wallpaper from pexels.com
+# gets a random wallpaper from wallhaven
 
+from bs4 import BeautifulSoup
 import requests
 import random
 import os
 
-API_KEY = os.environ["PEXELS_API_KEY"]
 
-q = "wallpaper"
-page = random.randint(1, 1000)
+def save_image(image_url: str):
+    image_response = requests.get(image_url)
+    image_response.raise_for_status()
 
-response = requests.get(
-    f"https://api.pexels.com/v1/search?query={q}&per_page=1&page={page}&orientation=landscape&size=large",
-    headers={
-        "Authorization": API_KEY,
-    },
-)
+    filepath = f'/home/{os.environ["USER"]}/.wallpaper'
+    with open(filepath, "wb") as f:
+        f.write(image_response.content)
 
-data = response.json()
+    os.system(f"feh --no-fehbg --bg-fill '{filepath}'")
 
-image_url = data["photos"][0]["src"]["original"]
 
-image_response = requests.get(image_url)
+def wallhaven():
+    response = requests.get(
+        "https://wallhaven.cc/search",
+        params={
+            "categories": 111,
+            "purity": 110,
+            "atleast": "3440x1440",
+            "ratios": "landscape",
+            "topRange": "1y",
+            "sorting": "toplist",
+            "order": "desc",
+            "page": random.randint(1, 20),
+        },
+    )
+    soup = BeautifulSoup(response.text, "lxml")
 
-image_response.raise_for_status()
+    thumbs = [t.attrs["data-wallpaper-id"] for t in soup.select(".thumb")]
+    data_id = random.choice(thumbs)
 
-filepath =f'/home/{os.environ["USER"]}/.wallpaper' 
-with open(filepath, 'wb') as f:
-    f.write(image_response.content)
+    wp_response = requests.get(f"https://wallhaven.cc/w/{data_id}")
+    wp_soup = BeautifulSoup(wp_response.text, "lxml")
+    wp = wp_soup.select_one("#wallpaper")
+    image_url = wp.attrs["src"] if wp else ""
+    save_image(image_url)
 
-os.system(f"feh --no-fehbg --bg-fill '{filepath}'")
+
+if __name__ == "__main__":
+    wallhaven()
