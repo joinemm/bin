@@ -1,4 +1,4 @@
 #!/bin/sh
 
 mons -e top
-~/.fehbg
+# ~/.fehbg
