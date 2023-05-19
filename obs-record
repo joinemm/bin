@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# wait for pipewire/pulseaudio to load devices or we wont have audio
+sleep 5
+obs --startreplaybuffer > ~/.obs-log
