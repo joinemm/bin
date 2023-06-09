@@ -23,16 +23,17 @@ def wallhaven():
     response = requests.get(
         "https://wallhaven.cc/search",
         params={
-            "categories": 111,
-            "purity": 110,
+            "categories": "010",
+            "purity": "110",
             "atleast": "3440x1440",
             "ratios": "landscape",
-            "topRange": "1y",
+            "topRange": "3M",
             "sorting": "toplist",
             "order": "desc",
-            "page": random.randint(1, 20),
+            "page": random.randint(1, 50),
         },
     )
+    response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
 
     thumbs = [t.attrs["data-wallpaper-id"] for t in soup.select(".thumb")]
@@ -41,7 +42,7 @@ def wallhaven():
     wp_response = requests.get(f"https://wallhaven.cc/w/{data_id}")
     wp_soup = BeautifulSoup(wp_response.text, "lxml")
     wp = wp_soup.select_one("#wallpaper")
-    image_url = wp.attrs["src"] if wp else ""
+    image_url = wp.attrs["src"]
     save_image(image_url)
 
 
