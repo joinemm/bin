@@ -1,0 +1,6 @@
+#!/bin/sh
+notify-send "Starting Replay buffer" "Vulkan recording"
+obs --startreplaybuffer &
+env OBS_VKCAPTURE=1 "$@"
+echo "STOPPING RECORDING"
+killall obs
