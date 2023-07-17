@@ -2,14 +2,23 @@
 
 # gets a random wallpaper from wallhaven
 
-from bs4 import BeautifulSoup
-import requests
-import random
 import os
+import random
+
+import requests
+from bs4 import BeautifulSoup
+from random_user_agent.params import HardwareType
+from random_user_agent.user_agent import UserAgent
+
+HEADERS = {
+    "User-Agent": UserAgent(
+        hardware_types=[HardwareType.COMPUTER.value],
+    ).get_random_user_agent()
+}
 
 
 def save_image(image_url: str):
-    image_response = requests.get(image_url)
+    image_response = requests.get(image_url, headers=HEADERS)
     image_response.raise_for_status()
 
     filepath = f'/home/{os.environ["USER"]}/.wallpaper'
@@ -19,6 +28,9 @@ def save_image(image_url: str):
     os.system(f"feh --no-fehbg --bg-fill '{filepath}'")
 
 
+# categories: [ General | Anime   | People ]
+# purity:     [ SFW     | Sketchy | NSFW   ]
+
 def wallhaven():
     response = requests.get(
         "https://wallhaven.cc/search",
@@ -27,11 +39,12 @@ def wallhaven():
             "purity": "110",
             "atleast": "3440x1440",
             "ratios": "landscape",
-            "topRange": "3M",
+             "topRange": "1y",
             "sorting": "toplist",
             "order": "desc",
-            "page": random.randint(1, 50),
+            "page": random.randint(1, 99),
         },
+        headers=HEADERS,
     )
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -39,7 +52,7 @@ def wallhaven():
     thumbs = [t.attrs["data-wallpaper-id"] for t in soup.select(".thumb")]
     data_id = random.choice(thumbs)
 
-    wp_response = requests.get(f"https://wallhaven.cc/w/{data_id}")
+    wp_response = requests.get(f"https://wallhaven.cc/w/{data_id}", headers=HEADERS)
     wp_soup = BeautifulSoup(wp_response.text, "lxml")
     wp = wp_soup.select_one("#wallpaper")
     image_url = wp.attrs["src"]
