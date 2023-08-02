@@ -1,0 +1,6 @@
+#!/bin/sh
+
+GEOMETRY=$(slop -f "-video_size %wx%h -i :0.0+%x,%y")
+OUT=/home/join/videos/screencast/$(date '+%Y-%m-%d-%H-%M-%S').mp4
+
+ffmpeg -hide_banner -f x11grab -show_region 1 $GEOMETRY -pix_fmt yuv420p -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" $OUT
