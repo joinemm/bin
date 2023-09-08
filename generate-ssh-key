@@ -1,5 +1,12 @@
 #!/bin/sh
 
-# generates an ssh key using the most secure algorithm (ed25519)
-# with name and comment coming from the current hostname and user
-ssh-keygen -t ed25519 -f "${HOME}/.ssh/${HOST}.key" -C "${USER}@${HOST}" -N ''
+# get hostname
+HOST="$(uname -n)"
+
+# generate an ssh key using the most secure algorithm (ed25519)
+KEYFILE="${HOME}/.ssh/${HOST}.key"
+ssh-keygen -t ed25519 -f "$KEYFILE" -C "${USER}@${HOST}" -N ''
+
+# add the newly generated ssh key to our agent
+eval $(ssh-agent)
+ssh-add "$KEYFILE" 
