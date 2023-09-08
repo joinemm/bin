@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# generates an ssh key using the most secure algorithm (ed25519)
+# with name and comment coming from the current hostname and user
+ssh-keygen -t ed25519 -f "${HOME}/.ssh/${HOST}.key" -C "${USER}@${HOST}" -N ''
