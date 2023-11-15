@@ -1,6 +1,7 @@
 #!/bin/sh
 
 FORMAT=${1:-mp4}
+mkdir -p "$HOME/videos/screencast"
 OUT="$HOME/videos/screencast/$(date '+%Y-%m-%d-%H-%M-%S').$FORMAT"
 GEOMETRY=$(slop -f "-video_size %wx%h -i :0.0+%x,%y")
 ffmpeg -hide_banner -f x11grab -show_region 1 $GEOMETRY -pix_fmt yuv420p -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" $OUT

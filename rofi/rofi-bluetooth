@@ -184,9 +184,9 @@ print_status() {
             fi
         done
         if [ "$DEVICES" ]; then
-            echo " $DEVICES"
+            echo " $DEVICES"
         else
-            echo ''
+            echo ''
         fi
     else
         echo ''
