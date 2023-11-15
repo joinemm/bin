@@ -1,7 +1,0 @@
-#!/bin/sh
-
-case $BLOCK_BUTTON in
-    1) DAY=$(date '+%d'); notify-send -i null "$(cal | head -n 1)" "$(cal -m | tail -n +2 | sed "s/$DAY/<u>$DAY<\/u>/g")"
-esac
-
-echo "$(date '+%b %d (%a) %H:%M:%S')"

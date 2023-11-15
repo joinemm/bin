@@ -1,4 +1,0 @@
-#!/bin/sh
-
-SOURCE="$(pactl info | grep "Default Source:" | cut -d ' ' -f 3)"
-pactl get-source-volume "$SOURCE" | grep Volume | cut -d ' ' -f 5
