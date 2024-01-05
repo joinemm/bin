@@ -1,0 +1,20 @@
+#! /bin/sh
+
+THEME='
+configuration { show-icons: false; }
+window { width: 300px; }
+inputbar { enabled: false; }
+listview { lines: 4; }
+'
+
+chosen=$(printf 'POWER MENU
+ Power Off
+ Restart
+ Lock' | rofi -dmenu -i -theme-str "$THEME")
+
+case "$chosen" in
+	" Power Off") poweroff ;;
+	" Restart") reboot ;;
+	" Lock") lock ;;
+	*) exit 1 ;;
+esac
