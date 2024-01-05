@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 case $1 in
   "on") mons -e top ;;
@@ -6,4 +6,4 @@ case $1 in
   *) echo 'Give "on" or "off"' && exit 1
 esac
 
-fehbg
+[[ -f ~/.fehbg ]] && ~/.fehbg

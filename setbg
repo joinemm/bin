@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cp "$1" "$HOME/.wallpaper"
-~/.fehbg
+feh --bg-fill "${HOME}/.wallpaper"

@@ -23,16 +23,6 @@
         interpreter = "/bin/sh";
       } (builtins.readFile ./color);
 
-      fehbg = pkgs.resholve.writeScriptBin "fehbg" {
-        inputs = with pkgs; [
-          feh
-        ];
-        execer = [
-          "cannot:${pkgs.feh}/bin/feh"
-        ];
-        interpreter = "/bin/sh";
-      } (builtins.readFile ./fehbg);
-
       buds = pkgs.resholve.writeScriptBin "buds" {
         inputs = with pkgs; [
           bluez
@@ -43,21 +33,33 @@
       dock = pkgs.resholve.writeScriptBin "dock" {
         inputs = with pkgs; [
           mons
-          fehbg
         ];
-        interpreter = "/bin/sh";
+        keep = {
+          "~/.fehbg" = true;
+        };
+        execer = [
+          "cannot:${pkgs.mons}/bin/mons"
+        ];
+        interpreter = "${pkgs.bash}/bin/bash";
       } (builtins.readFile ./dock);
 
       audio-control = pkgs.resholve.writeScriptBin "audio-control" {
         inputs = with pkgs; [
           coreutils
           pulseaudio
+          procps
+          gnugrep
+          gawk
+        ];
+        execer = [
+          "cannot:${pkgs.procps}/bin/pkill"
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./audio-control);
 
       extract = pkgs.resholve.writeScriptBin "extract" {
         inputs = with pkgs; [
+          coreutils
           gnutar # tar
           xz # unlzma, unxz
           bzip2 # bunzip2
@@ -65,6 +67,14 @@
           gzip # gunzip, uncompress
           p7zip # 7z
           cabextract # cabextract
+          unzip
+          gnused
+        ];
+        execer = [
+          "cannot:${pkgs.p7zip}/bin/7z"
+          "cannot:${pkgs.unrar-wrapper}/bin/unrar"
+          "cannot:${pkgs.gzip}/bin/uncompress"
+          "cannot:${pkgs.gzip}/bin/gunzip"
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./extract);
