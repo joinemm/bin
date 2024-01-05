@@ -1,4 +1,9 @@
 #!/bin/sh
 
-mons -e top
-# ~/.fehbg
+case $1 in
+  "on") mons -e top ;;
+  "off") mons -o ;;
+  *) echo 'Give "on" or "off"' && exit 1
+esac
+
+fehbg
