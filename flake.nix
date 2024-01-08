@@ -11,6 +11,15 @@
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
+    # scripts that are needed as dependencies
+
+    lock = pkgs.resholve.writeScriptBin "lock" {
+      inputs = with pkgs; [
+        xsecurelock
+      ];
+      interpreter = "/bin/sh";
+    } (builtins.readFile ./lock);
   in {
     packages.${system} = {
       color = pkgs.resholve.writeScriptBin "color" {
@@ -78,6 +87,20 @@
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./extract);
+
+      lock = lock;
+
+      power-menu = pkgs.resholve.writeScriptBin "power-menu" {
+        inputs = with pkgs; [
+          rofi
+          systemd
+          lock
+        ];
+        execer = [
+          "cannot:${pkgs.rofi}/bin/rofi"
+        ];
+        interpreter = "/bin/sh";
+      } (builtins.readFile ./power-menu);
     };
   };
 }
