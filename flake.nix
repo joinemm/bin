@@ -19,6 +19,17 @@
       interpreter = "/bin/sh";
     } (builtins.readFile ./lock);
 
+    setbg = pkgs.resholve.writeScriptBin "setbg" {
+      inputs = with pkgs; [
+        coreutils
+        feh
+      ];
+      execer = [
+        "cannot:${pkgs.feh}/bin/feh"
+      ];
+      interpreter = "/bin/sh";
+    } (builtins.readFile ./setbg);
+
     color = pkgs.resholve.writeScriptBin "color" {
       inputs = with pkgs; [
         coreutils
@@ -105,6 +116,7 @@
       extract
       lock
       power-menu
+      setbg
     ];
   in {
     all = all;
@@ -117,6 +129,7 @@
         extract
         lock
         power-menu
+        setbg
         ;
     };
   };
