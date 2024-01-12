@@ -114,8 +114,8 @@
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./power-menu);
-
-      scripts = {
+    in {
+      packages = {
         inherit
           color
           buds
@@ -128,8 +128,5 @@
           vk_radv_nixos
           ;
       };
-    in {
-      all = nixpkgs.lib.attrsets.mapAttrsToList (name: value: value) scripts;
-      packages = scripts;
     });
 }
