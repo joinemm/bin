@@ -114,6 +114,17 @@
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./power-menu);
+
+      add-torrent = pkgs.resholve.writeScriptBin "add-torrent" {
+        inputs = with pkgs; [
+          libnotify
+          transmission
+        ];
+        execer = [
+          "cannot:${pkgs.transmission}/bin/transmission-remote"
+        ];
+        interpreter = "/bin/sh";
+      } (builtins.readFile ./add-torrent);
     in {
       packages = {
         inherit
@@ -126,6 +137,7 @@
           power-menu
           setbg
           vk_radv_nixos
+          add-torrent
           ;
       };
     });
