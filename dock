@@ -3,7 +3,7 @@
 case $1 in
   "on") mons -e top ;;
   "off") mons -o ;;
-  *) echo 'Give "on" or "off"' && exit 1
+  *) echo 'Give "on" or "off"' && exit 1 ;;
 esac
 
 [[ -f ~/.fehbg ]] && ~/.fehbg

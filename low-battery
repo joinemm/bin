@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 # runs as a cronjob to notify me when battery is low
 
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 
-BATTINFO=`acpi -b | grep -v " 0%," | head -n 1`
-if [[ `echo $BATTINFO | grep Discharging` && `echo $BATTINFO | cut -f 5 -d " "` < 00:15:00 ]] ; then
-    notify-send -u critical " Low battery" "$(echo $BATTINFO | cut -f 5,4 -d " ")"
+BATTINFO=$(acpi -b | grep -v " 0%," | head -n 1)
+if [[ "$(echo "$BATTINFO" | grep Discharging) && $(echo "$BATTINFO" | cut -f 5 -d " ")" < 00:15:00 ]]; then
+    notify-send -u critical " Low battery" "$(echo "$BATTINFO" | cut -f 5,4 -d " ")"
 fi

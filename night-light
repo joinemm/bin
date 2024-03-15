@@ -4,10 +4,10 @@ DAY=6500
 NIGHT=3500
 
 case $(date +%H:%M) in
-    (22:*)        TEMP=$NIGHT;;
-    (23:*)        TEMP=$NIGHT;;
-    (0[012345]:*) TEMP=$NIGHT;;
-    (*)           TEMP=$DAY;;
+  22:*) TEMP=$NIGHT ;;
+  23:*) TEMP=$NIGHT ;;
+  0[012345]:*) TEMP=$NIGHT ;;
+  *) TEMP=$DAY ;;
 esac
 
 sct $TEMP

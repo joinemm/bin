@@ -77,6 +77,7 @@
         ];
         execer = [
           "cannot:${pkgs.procps}/bin/pkill"
+          "cannot:${pkgs.pulseaudio}/bin/pactl"
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./audio-control);

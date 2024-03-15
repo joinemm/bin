@@ -2,18 +2,32 @@
 
 # controls volume for currently active sink
 
-if [ $1 == "up" ]; then
-    pactl set-sink-volume @DEFAULT_SINK@ +$2; pkill -RTMIN+10 dwmblocks
-elif [ $1 == "down" ]; then
-    pactl set-sink-volume @DEFAULT_SINK@ -$2; pkill -RTMIN+10 dwmblocks
-elif [ $1 == "mute" ]; then
-    pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -RTMIN+10 dwmblocks
-elif [ $1 == "current" ]; then
+case "$1" in
+  "up")
+    pactl set-sink-volume @DEFAULT_SINK@ +"$2"
+    pkill -RTMIN+10 dwmblocks
+    ;;
+
+  down)
+    pactl set-sink-volume @DEFAULT_SINK@ -"$2"
+    pkill -RTMIN+10 dwmblocks
+    ;;
+
+  mute)
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    pkill -RTMIN+10 dwmblocks
+    ;;
+
+  current)
     if pactl get-sink-mute @DEFAULT_SINK@ | grep -q "Mute: yes"; then
-        echo "muted"
+      echo "muted"
     else
-        pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/ {print $5}'
+      pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/ {print $5}'
     fi
-else
+    ;;
+
+  *)
     echo "error: unknown operation $1"
-fi
+    ;;
+
+esac

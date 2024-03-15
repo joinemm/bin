@@ -13,8 +13,8 @@ chosen=$(printf 'POWER MENU
  Lock' | rofi -dmenu -i -theme-str "$THEME")
 
 case "$chosen" in
-	" Power Off") poweroff ;;
-	" Restart") reboot ;;
-	" Lock") lock ;;
-	*) exit 1 ;;
+  " Power Off") poweroff ;;
+  " Restart") reboot ;;
+  " Lock") lock ;;
+  *) exit 1 ;;
 esac

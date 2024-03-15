@@ -6,9 +6,9 @@
 CURRENT=$(setxkbmap -query | grep layout | cut -d ' ' -f6-)
 
 if [ "$CURRENT" == "$1" ]; then
-    setxkbmap "$2" && notify-send "Layout" "$2"
-	setxkbmap -option caps:super
+  setxkbmap "$2" && notify-send "Layout" "$2"
+  setxkbmap -option caps:super
 else
-    setxkbmap "$1" && notify-send "Layout" "$1"
-	setxkbmap -option caps:super
+  setxkbmap "$1" && notify-send "Layout" "$1"
+  setxkbmap -option caps:super
 fi

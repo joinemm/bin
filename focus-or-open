@@ -4,7 +4,7 @@
 # $2 = command to use for opening
 
 if [ -n "$(xdo pid -n $1)" ]; then
-    xdo activate -n $1
+  xdo activate -n $1
 else
-    $2 &
+  $2 &
 fi
