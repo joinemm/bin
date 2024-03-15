@@ -112,6 +112,8 @@
         ];
         execer = [
           "cannot:${pkgs.rofi}/bin/rofi"
+          "cannot:${pkgs.systemd}/bin/poweroff"
+          "cannot:${pkgs.systemd}/bin/reboot"
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./power-menu);
