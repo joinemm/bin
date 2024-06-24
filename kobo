@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+BOOKS=~/documents/books/epub
+MOUNTPOINT=~/external
+DEVICE=/dev/sda
+
+discover() {
+    fd -v -eepub "" ~/downloads -x mv {} "$BOOKS"
+}
+
+convert() {
+    kepubify -u -i "$BOOKS"
+}
+
+transfer() {
+    sudo mount -v -t vfat "$DEVICE" "$MOUNTPOINT" -o rw,umask=000
+    rsync --update --progress "$BOOKS"/*.kepub.epub "$MOUNTPOINT"
+    sudo umount -v "$DEVICE"
+}
+
+case $1 in
+    "discover") discover ;;
+    "convert") convert ;;
+    "transfer") transfer ;;
+    "")
+        discover
+        convert
+        transfer
+        ;;
+esac

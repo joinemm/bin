@@ -128,6 +128,23 @@
         ];
         interpreter = "/bin/sh";
       } (builtins.readFile ./add-torrent);
+
+      kobo = pkgs.resholve.writeScriptBin "kobo" {
+        inputs = with pkgs; [
+          fd
+          rsync
+          kepubify
+        ];
+        execer = [
+          "cannot:${pkgs.fd}/bin/fd"
+          "cannot:${pkgs.kepubify}/bin/kepubify"
+          "cannot:${pkgs.rsync}/bin/rsync"
+        ];
+        fake = {
+          external = ["sudo"];
+        };
+        interpreter = "/bin/sh";
+      } (builtins.readFile ./kobo);
     in {
       packages = {
         inherit
@@ -141,6 +158,7 @@
           setbg
           vk_radv_nixos
           add-torrent
+          kobo
           ;
       };
     });
