@@ -4,5 +4,6 @@
 # and copies the hex code to the clipboard
 
 selectedcolor="$(xcolor | tr -d '[:space:]' | tr -d '#')"
-printf "$selectedcolor" | xclip -selection clipboard
+echo "$selectedcolor" | xclip -selection clipboard
+echo "#$selectedcolor"
 notify-send "Color picked" "#$selectedcolor"
