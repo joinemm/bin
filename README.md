@@ -16,27 +16,29 @@ You have two options: you can either install these scripts to use them whenever,
 
 In `flake.nix` import the flake as an input:
 
-```
+```nix
 {
-  inputs = {
-    bin = {
-      url = "github:joinemm/bin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  }
+  # ...
+  inputs.bin = {
+    url = "github:joinemm/bin";
+    # may break if your version of nixpkgs differs too much from the one in this repo
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }
 ```
 
 then you can install scripts like any other package:
 
-```
-environment.systemPackages = [
-  inputs.packages.${system}.color
-]
+```nix
+{
+  environment.systemPackages = [
+    inputs.packages.${system}.color
+  ];
+}
 ```
 
 ### Run
 
-```
+```sh
 nix run github:joinemm/bin#color
 ```
