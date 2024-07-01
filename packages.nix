@@ -79,6 +79,7 @@
       cabextract # cabextract
       unzip
       gnused
+      zstd
     ];
     execer = [
       "cannot:${pkgs.p7zip}/bin/7z"
