@@ -37,7 +37,13 @@ then you can install scripts like any other package:
 }
 ```
 
-### Run
+After this, the script is in your path and you can simply run it like any other program:
+
+```sh
+color
+```
+
+### Run without installing
 
 ```sh
 nix run github:joinemm/bin#color
