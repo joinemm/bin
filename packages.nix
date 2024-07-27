@@ -103,6 +103,21 @@
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/power-menu);
 
+  tailscale-menu = pkgs.resholve.writeScriptBin "tailscale-menu" {
+    inputs = with pkgs; [
+      rofi
+      curl
+      jq
+      coreutils
+      tailscale
+    ];
+    execer = [
+      "cannot:${pkgs.rofi}/bin/rofi"
+      "cannot:${pkgs.tailscale}/bin/tailscale"
+    ];
+    interpreter = "${pkgs.bash}/bin/bash";
+  } (builtins.readFile ./src/tailscale-menu);
+
   add-torrent = pkgs.resholve.writeScriptBin "add-torrent" {
     inputs = with pkgs; [
       libnotify

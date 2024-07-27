@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+ICON_ACTIVE="󰴽"
+ICON_INACTIVE="󰌙"
+SERVER="https://portal.joinemm.dev"
+
+status=$(curl --silent --fail \
+    --unix-socket /var/run/tailscale/tailscaled.sock \
+    http://local-tailscaled.sock/localapi/v0/status)
+
+if [ "$1" == "status" ]; then
+    # check if it's stopped (down)
+    if [ "$(echo "$status" | jq --raw-output .BackendState)" = "Stopped" ]; then
+        echo "${ICON_INACTIVE} down"
+        exit 0
+    fi
+
+    # if an exit node is active, show its hostname
+    exit_node_hostname="$(echo "$status" | jq --raw-output '.Peer[] | select(.ExitNode) | .HostName')"
+    if [ -n "${exit_node_hostname}" ]; then
+        echo "${ICON_ACTIVE} => ${exit_node_hostname}"
+    else
+        echo "${ICON_ACTIVE} up"
+    fi
+    exit 0
+fi
+
+OPTS="--login-server ${SERVER} --operator ${USER} --accept-routes --reset"
+
+THEME='
+configuration { show-icons: false; }
+inputbar { enabled: false; }
+'
+
+declare -A options
+options["${ICON_ACTIVE} up"]="up ${OPTS}"
+options["${ICON_INACTIVE} down"]="down"
+
+for dnsname in $(echo "$status" | jq --raw-output '.Peer[] | select(.ExitNodeOption) | .HostName'); do
+    options["${ICON_ACTIVE} up (${dnsname} as exit node)"]="up ${OPTS} --exit-node ${dnsname}"
+done
+
+result=$(echo -e "$(printf "%s\n" "${!options[@]}" | sort)" | rofi -dmenu -i -theme-str "$THEME")
+# rofi exit code == 0: normal operation
+# 10 <= exit code <= 28: keybindings used
+# anything else: canceled or something unforeseen happened
+if [[ $? == 0 || ($? -ge 10 && $? -le 28) ]]; then
+    command=${options[$result]}
+    # shellcheck disable=SC2086
+    tailscale $command
+fi
