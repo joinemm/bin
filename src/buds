@@ -1,5 +1,6 @@
 #!/bin/sh
 
 bluetoothctl <<EOF
+power on
 connect 58:A6:39:22:AD:A3
 EOF

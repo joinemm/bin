@@ -3,11 +3,11 @@
 set -e
 
 BOOKS=~/documents/books/epub
-MOUNTPOINT=~/external
+MOUNTPOINT=/mnt
 DEVICE=/dev/sda
 
 discover() {
-    fd -v -eepub "" ~/downloads -x mv {} "$BOOKS"
+    fd -eepub "" ~/downloads -x mv {} "$BOOKS"
 }
 
 convert() {
@@ -21,12 +21,12 @@ transfer() {
 }
 
 case $1 in
-    "discover") discover ;;
-    "convert") convert ;;
-    "transfer") transfer ;;
-    "")
-        discover
-        convert
-        transfer
-        ;;
+"discover") discover ;;
+"convert") convert ;;
+"transfer") transfer ;;
+"")
+    discover
+    convert
+    transfer
+    ;;
 esac
