@@ -145,4 +145,10 @@ rec {
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/screencast);
 
+  vpn = pkgs.resholve.writeScriptBin "vpn" {
+    inputs = with pkgs; [ systemd ];
+    execer = [ "cannot:${pkgs.systemd}/bin/systemctl" ];
+    interpreter = "/bin/sh";
+  } (builtins.readFile ./src/vpn);
+
 }
