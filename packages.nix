@@ -1,13 +1,12 @@
-{pkgs, ...}: rec {
+{ pkgs, ... }:
+rec {
   lock = pkgs.resholve.writeScriptBin "lock" {
-    inputs = with pkgs; [
-      xsecurelock
-    ];
+    inputs = with pkgs; [ xsecurelock ];
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/lock);
 
   vk_radv_nixos = pkgs.resholve.writeScriptBin "vk_radv_nixos" {
-    inputs = [];
+    inputs = [ ];
     interpreter = "${pkgs.bash}/bin/bash";
   } (builtins.readFile ./src/vk_radv_nixos);
 
@@ -16,9 +15,7 @@
       coreutils
       feh
     ];
-    execer = [
-      "cannot:${pkgs.feh}/bin/feh"
-    ];
+    execer = [ "cannot:${pkgs.feh}/bin/feh" ];
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/setbg);
 
@@ -33,22 +30,16 @@
   } (builtins.readFile ./src/color);
 
   buds = pkgs.resholve.writeScriptBin "buds" {
-    inputs = with pkgs; [
-      bluez
-    ];
+    inputs = with pkgs; [ bluez ];
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/buds);
 
   dock = pkgs.resholve.writeScriptBin "dock" {
-    inputs = with pkgs; [
-      mons
-    ];
+    inputs = with pkgs; [ mons ];
     keep = {
       "~/.fehbg" = true;
     };
-    execer = [
-      "cannot:${pkgs.mons}/bin/mons"
-    ];
+    execer = [ "cannot:${pkgs.mons}/bin/mons" ];
     interpreter = "${pkgs.bash}/bin/bash";
   } (builtins.readFile ./src/dock);
 
@@ -123,9 +114,7 @@
       libnotify
       transmission_4
     ];
-    execer = [
-      "cannot:${pkgs.transmission_4}/bin/transmission-remote"
-    ];
+    execer = [ "cannot:${pkgs.transmission_4}/bin/transmission-remote" ];
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/add-torrent);
 
@@ -141,8 +130,19 @@
       "cannot:${pkgs.rsync}/bin/rsync"
     ];
     fake = {
-      external = ["sudo"];
+      external = [ "sudo" ];
     };
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/kobo);
+
+  screencast = pkgs.resholve.writeScriptBin "screencast" {
+    inputs = with pkgs; [
+      coreutils
+      slop
+      ffmpeg-full
+    ];
+    execer = [ ];
+    interpreter = "/bin/sh";
+  } (builtins.readFile ./src/screencast);
+
 }
