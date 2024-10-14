@@ -1,159 +1,87 @@
-{ pkgs, ... }:
-rec {
-  lock = pkgs.resholve.writeScriptBin "lock" {
-    inputs = with pkgs; [ xsecurelock ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/lock);
+{
+  perSystem =
+    { pkgs, lib, ... }:
+    let
+      bashDeps = rec {
+        myip = with pkgs; [ wget2 ];
 
-  vk_radv_nixos = pkgs.resholve.writeScriptBin "vk_radv_nixos" {
-    inputs = [ ];
-    interpreter = "${pkgs.bash}/bin/bash";
-  } (builtins.readFile ./src/vk_radv_nixos);
+        vpn = with pkgs; [ systemd ];
 
-  setbg = pkgs.resholve.writeScriptBin "setbg" {
-    inputs = with pkgs; [
-      coreutils
-      feh
-    ];
-    execer = [ "cannot:${pkgs.feh}/bin/feh" ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/setbg);
+        screencast = with pkgs; [
+          slop
+          ffmpeg-full
+        ];
 
-  color = pkgs.resholve.writeScriptBin "color" {
-    inputs = with pkgs; [
-      coreutils
-      xcolor
-      xclip
-      libnotify
-    ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/color);
+        kobo = with pkgs; [
+          fd
+          rsync
+          kepubify
+        ];
 
-  buds = pkgs.resholve.writeScriptBin "buds" {
-    inputs = with pkgs; [ bluez ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/buds);
+        add-torrent = with pkgs; [
+          libnotify
+          transmission_4
+        ];
 
-  dock = pkgs.resholve.writeScriptBin "dock" {
-    inputs = with pkgs; [ mons ];
-    keep = {
-      "~/.fehbg" = true;
+        tailscale-menu = with pkgs; [
+          rofi
+          curl
+          jq
+          tailscale
+        ];
+
+        lock = with pkgs; [ xsecurelock ];
+
+        power-menu =
+          (with pkgs; [
+            rofi
+            systemd
+          ])
+          ++ [ lock ];
+
+        vk_radv_nixos = [ ];
+
+        setbg = with pkgs; [ feh ];
+
+        color = with pkgs; [
+          xcolor
+          xclip
+          libnotify
+        ];
+
+        buds = with pkgs; [ bluez ];
+
+        dock = with pkgs; [ mons ];
+
+        audio-control = with pkgs; [
+          pulseaudio
+          procps
+          gnugrep
+          gawk
+        ];
+
+        extract = with pkgs; [
+          gnutar # tar
+          xz # unlzma, unxz
+          bzip2 # bunzip2
+          unar # .rar
+          gzip # gunzip, uncompress
+          p7zip # .7z
+          cabextract # cabextract
+          unzip
+          gnused
+          zstd
+        ];
+      };
+    in
+    {
+      packages = lib.attrsets.mapAttrs (
+        name: path:
+        pkgs.writeShellApplication {
+          name = "${name}";
+          runtimeInputs = path;
+          text = (builtins.readFile ./src/${name});
+        }
+      ) bashDeps;
     };
-    execer = [ "cannot:${pkgs.mons}/bin/mons" ];
-    interpreter = "${pkgs.bash}/bin/bash";
-  } (builtins.readFile ./src/dock);
-
-  audio-control = pkgs.resholve.writeScriptBin "audio-control" {
-    inputs = with pkgs; [
-      coreutils
-      pulseaudio
-      procps
-      gnugrep
-      gawk
-    ];
-    execer = [
-      "cannot:${pkgs.procps}/bin/pkill"
-      "cannot:${pkgs.pulseaudio}/bin/pactl"
-    ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/audio-control);
-
-  extract = pkgs.resholve.writeScriptBin "extract" {
-    inputs = with pkgs; [
-      coreutils
-      gnutar # tar
-      xz # unlzma, unxz
-      bzip2 # bunzip2
-      unar # .rar
-      gzip # gunzip, uncompress
-      p7zip # .7z
-      cabextract # cabextract
-      unzip
-      gnused
-      zstd
-    ];
-    execer = [
-      "cannot:${pkgs.p7zip}/bin/7z"
-      "cannot:${pkgs.gzip}/bin/uncompress"
-      "cannot:${pkgs.gzip}/bin/gunzip"
-    ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/extract);
-
-  power-menu = pkgs.resholve.writeScriptBin "power-menu" {
-    inputs = with pkgs; [
-      rofi
-      systemd
-      lock
-    ];
-    execer = [
-      "cannot:${pkgs.rofi}/bin/rofi"
-      "cannot:${pkgs.systemd}/bin/poweroff"
-      "cannot:${pkgs.systemd}/bin/reboot"
-    ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/power-menu);
-
-  tailscale-menu = pkgs.resholve.writeScriptBin "tailscale-menu" {
-    inputs = with pkgs; [
-      rofi
-      curl
-      jq
-      coreutils
-      tailscale
-    ];
-    execer = [
-      "cannot:${pkgs.rofi}/bin/rofi"
-      "cannot:${pkgs.tailscale}/bin/tailscale"
-    ];
-    interpreter = "${pkgs.bash}/bin/bash";
-  } (builtins.readFile ./src/tailscale-menu);
-
-  add-torrent = pkgs.resholve.writeScriptBin "add-torrent" {
-    inputs = with pkgs; [
-      libnotify
-      transmission_4
-    ];
-    execer = [ "cannot:${pkgs.transmission_4}/bin/transmission-remote" ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/add-torrent);
-
-  kobo = pkgs.resholve.writeScriptBin "kobo" {
-    inputs = with pkgs; [
-      fd
-      rsync
-      kepubify
-    ];
-    execer = [
-      "cannot:${pkgs.fd}/bin/fd"
-      "cannot:${pkgs.kepubify}/bin/kepubify"
-      "cannot:${pkgs.rsync}/bin/rsync"
-    ];
-    fake = {
-      external = [ "sudo" ];
-    };
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/kobo);
-
-  screencast = pkgs.resholve.writeScriptBin "screencast" {
-    inputs = with pkgs; [
-      coreutils
-      slop
-      ffmpeg-full
-    ];
-    execer = [ ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/screencast);
-
-  vpn = pkgs.resholve.writeScriptBin "vpn" {
-    inputs = with pkgs; [ systemd ];
-    execer = [ "cannot:${pkgs.systemd}/bin/systemctl" ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/vpn);
-
-  myip = pkgs.resholve.writeScriptBin "myip" {
-    inputs = with pkgs; [ wget2 ];
-    execer = [ "cannot:${pkgs.wget2}/bin/wget2" ];
-    interpreter = "/bin/sh";
-  } (builtins.readFile ./src/myip);
 }
