@@ -1,0 +1,2 @@
+#!/bin/sh
+wget2 -O - -q icanhazip.com

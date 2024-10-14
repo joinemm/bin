@@ -151,4 +151,9 @@ rec {
     interpreter = "/bin/sh";
   } (builtins.readFile ./src/vpn);
 
+  myip = pkgs.resholve.writeScriptBin "myip" {
+    inputs = with pkgs; [ wget2 ];
+    execer = [ "cannot:${pkgs.wget2}/bin/wget2" ];
+    interpreter = "/bin/sh";
+  } (builtins.readFile ./src/myip);
 }

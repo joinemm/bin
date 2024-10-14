@@ -16,7 +16,7 @@ convert() {
 
 transfer() {
     sudo mount -v -t vfat "$DEVICE" "$MOUNTPOINT" -o rw,umask=000
-    rsync --update --progress "$BOOKS"/*.kepub.epub "$MOUNTPOINT"
+    rsync --update --progress "$BOOKS"/*.kepub* "$MOUNTPOINT"
     sudo umount -v "$DEVICE"
 }
 
