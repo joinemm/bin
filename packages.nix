@@ -37,7 +37,7 @@
             rofi
             systemd
           ])
-          ++ [ lock ];
+          ++ lock;
 
         vk_radv_nixos = [ ];
 

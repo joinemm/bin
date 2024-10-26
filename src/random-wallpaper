@@ -31,15 +31,16 @@ def save_image(image_url: str):
 # categories: [ General | Anime   | People ]
 # purity:     [ SFW     | Sketchy | NSFW   ]
 
+
 def wallhaven():
     response = requests.get(
         "https://wallhaven.cc/search",
         params={
-            "categories": "010",
-            "purity": "110",
+            "categories": "110",
+            "purity": "100",
             "atleast": "3440x1440",
             "ratios": "landscape",
-             "topRange": "1y",
+            "topRange": "1y",
             "sorting": "toplist",
             "order": "desc",
             "page": random.randint(1, 99),
