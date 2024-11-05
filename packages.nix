@@ -20,7 +20,6 @@
 
         add-torrent = with pkgs; [
           libnotify
-          transmission_4
         ];
 
         tailscale-menu = with pkgs; [
@@ -35,7 +34,6 @@
         power-menu =
           (with pkgs; [
             rofi
-            systemd
           ])
           ++ lock;
 
