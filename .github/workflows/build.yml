@@ -41,13 +41,8 @@ jobs:
 
 
       - name: Build packages
-        run: |
-          nix run github:Mic92/nix-fast-build -- --flake ".#packages" --skip-cached --no-nom --attic-cache cache --result-format junit --result-file result.xml
-          nix-shell -p python3Packages.junit2html --run 'junit2html result.xml result.html'
+        run: nix run github:Mic92/nix-fast-build -- --flake ".#packages" --skip-cached --no-nom --attic-cache cache --result-format json --result-file result.json
 
-      - name: Archive test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: result.html
-          path: result.html
+      - name: View results
+        run: cat result.json | jq
 
