@@ -28,7 +28,7 @@ In your system `flake.nix` import the flake as an input:
 }
 ```
 
-The script packages are exposed under `inputs.bin.packages.${system}`, and available for most unix systems (though only `x86-64_linux` is actually tested).
+The script packages are exposed under `inputs.bin.packages.${system}`, and available `x86_64-linux` and `aarch64-linux`.
 
 You can install the scripts you need like any other package:
 
