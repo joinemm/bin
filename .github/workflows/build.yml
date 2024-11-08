@@ -42,7 +42,7 @@ jobs:
 
       - name: Build packages
         run: |
-          nix run github:Mic92/nix-fast-build -- --flake ".#packages" --skip-cached --no-nom --attic-cache cache --result-file result.xml
+          nix run github:Mic92/nix-fast-build -- --flake ".#packages" --skip-cached --no-nom --attic-cache cache --result-format junit --result-file result.xml
           nix-shell -p python3Packages.junit2html --run 'junit2html result.xml result.html'
 
       - name: Archive test results
