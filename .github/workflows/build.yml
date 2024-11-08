@@ -14,6 +14,7 @@ jobs:
       - name: Install nix
         uses: cachix/install-nix-action@v30
         with:
+          nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             max-jobs = auto
             builders = @/etc/nix/machines
@@ -26,6 +27,7 @@ jobs:
           endpoint: "https://attic.joinemm.dev"
           cache: "cache"
           token: '${{ secrets.ATTIC_AUTH_TOKEN }}'
+          skip-push: true
 
       - name: Configure remote builders
         run: |
