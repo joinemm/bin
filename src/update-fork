@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+MAIN=${1:-main}
+BRANCH="$(git branch | grep '\* ' | sed 's/\* //g')"
+git checkout "$MAIN"
+git pull upstream "$MAIN"
+git push
+git checkout "$BRANCH"

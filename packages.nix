@@ -70,6 +70,8 @@
           gnused
           zstd
         ];
+
+        update-fork = with pkgs; [ git ];
       };
     in
     {
