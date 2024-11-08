@@ -8,3 +8,4 @@ git checkout "$MAIN"
 git pull upstream "$MAIN"
 git push
 git checkout "$BRANCH"
+git rebase "$MAIN"
